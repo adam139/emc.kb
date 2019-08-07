@@ -1,5 +1,8 @@
 emc.kb
 =====
+add MySQL branch (come from dev1.2)
+-----
+
 todo
 -----
 	follow id change to uid.
