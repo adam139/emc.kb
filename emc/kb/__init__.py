@@ -17,7 +17,7 @@ DoVote = "emc.kb:Do vote"
 
 ORMBase = declarative.declarative_base()
 ora_engine = create_engine('oracle://sys:password@kwsensen.f3322.net:1521/orcl2?mode=2&charset=utf8',optimize_limits=True,use_binds_for_limits=False,convert_unicode=True, encoding='utf-8',pool_recycle=3600)
-# some_engine = create_engine('mysql://kbdba:K0mdba$!9@127.0.0.1:3306/parameters?charset=utf8', pool_recycle=3600)
+# some_engine = create_engine('mysql://kbdba:K0mdba$!9@127.0.0.1:3306/parameters?charset=utf8', pool_recycle=3600,echo=True)
 # emc_engine = create_engine('mysql://kbdba:K0mdba$!9@127.0.0.1:3306/emc_test?charset=utf8', pool_recycle=3600)
 # log_engine = create_engine('mysql://kbdba:K0mdba$!9@127.0.0.1:3306/emclog?charset=utf8', pool_recycle=3600)
 # Session = sessionmaker(bind=some_engine)
