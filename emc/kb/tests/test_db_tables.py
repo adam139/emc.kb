@@ -1,10 +1,8 @@
 #-*- coding: UTF-8 -*-
 import datetime
 import unittest
-
 from plone.app.testing import TEST_USER_ID
 from plone.app.testing import setRoles
-
 from emc.kb.testing import INTEGRATION_TESTING
 #sqlarchemy
 from sqlalchemy import text
@@ -16,58 +14,65 @@ from emc.kb.interfaces import IDbapi
 from zope.component import queryUtility
 from emc.kb import log_session as Session
 from emc.kb import ora_engine as engine
+from  emc.kb import ORMBase as Base
+from  emc.kb.tests.base import TABLES
 
 
 class TestDatabase(unittest.TestCase):
-
     layer = INTEGRATION_TESTING
 
     def drop_tables(self,tbls=None):
-        """create all db tables
+        """drop all db tables
         """
 
-        if tbls == None:
-            tbls = ['Fashej','Jieshouj','Fashetx','Jieshoutx','Lvboq','Dianxingtxzyzk',
-                'Tianxianzk','Jieshoujzk','Fashejzk','Ceshishysh',
-                'Ceshiry','Ceshiff','Ceshibg','Ceshixm']
+        for tb in tbls:
+            import_str = "from %(p)s import %(t)s" % dict(p='emc.kb.mapping_db',t=tb) 
+            exec import_str
+        Base.metadata.drop_all(engine)                                
+
+    def empty_tables(self,tbls=None):
+        """clear all db tables
+        """
+        if not bool(tbls):
+            tbls = TABLES       
+        items = []
         for tb in tbls:
             import_str = "from %(p)s import %(t)s as tablecls" % dict(p='emc.kb.mapping_db',t=tb) 
             exec import_str
-            tablecls.__table__.drop(engine)                    
-
-    def delete_tables(self,tbls=None):
-        """delete all db tables
-        """
-        if tbls == None:
-            tbls = ['Model','Fashej','Jieshouj','Fashetx','Jieshoutx','Lvboq','Dianxingtxzyzk',
-                'Tianxianzk','Jieshoujzk','Fashejzk','Ceshishysh',
-                'Ceshiry','Ceshiff','Ceshibg','Ceshixm']
-        for tb in tbls:
-            import_str = "from %(p)s import %(t)s as tablecls" % dict(p='emc.kb.mapping_db',t=tb) 
-            exec import_str
-            tablecls.__table__.drop(engine)
+            items.extend(Session.query(tablecls).all())
+        for m in items:
+            Session.delete(m)                    
+        Session.commit()
 
     def create_tables(self,tbls=None):
         """create all db tables
         """
-        if tbls == None:
-            tbls = ['Model','Fashej','Jieshouj','Fashetx','Jieshoutx','Lvboq','Dianxingtxzyzk',
-                'Tianxianzk','Jieshoujzk','Fashejzk','Ceshishysh',
-                'Ceshiry','Ceshiff','Ceshibg','Ceshixm']
+
         for tb in tbls:
             import_str = "from %(p)s import %(t)s as tablecls" % dict(p='emc.kb.mapping_db',t=tb) 
             exec import_str
-            tablecls.__table__.create(engine)
+        Base.metadata.create_all(engine)
+
+    def setUp(self):
+#         portal = self.layer['portal']
+#         setRoles(portal, TEST_USER_ID, ('Manager',))
+        import os
+        os.environ['NLS_LANG'] = '.AL32UTF8'
+#         tbls = TABLES
+#         tbls = ['Yao','YaoWei','YaoXing']
+#         self.empty_tables()
+#         self.drop_tables(tbls)
+#         self.create_tables(tbls)
+
+    def test_dummy(self):
+        tbls = TABLES
+#         tbls = ['Yao']
+#         self.create_tables(tbls)
+#         self.drop_tables(tbls)
+
 
     def test_dbapi_fashej(self):
-
-        import os
-        os.environ['NLS_LANG'] = '.AL32UTF8'            
-#         self.create_tables(tbls=['Fashej'])
-#         self.drop_tables(tbls=['Fashej'])
-#         import pdb
-#         pdb.set_trace()
-        
+        self.create_tables(tbls=['Fashej'])
 # ('333333002','发射机01','asd2w23sds212211111','m',2.4,0,2.8,10,0,2.8,20,1.1,'AM-V',2,1,' 常用发射机1')
         values = dict(sbdm="333333003",sbmc=u"发射机02",pcdm="asd2w23sds212211111",location=u"m",
                       freq=2.4,pd_upper=0,pd_lower=2.8,num=10,
@@ -78,14 +83,13 @@ class TestDatabase(unittest.TestCase):
 #         import pdb
 #         pdb.set_trace()
         nums = dbapi.query({'start':0,'size':1,'SearchableText':'','sort_order':'reverse'})
-#         import pdb
-#         pdb.set_trace()
+
         id = nums[0].id        
         rt = dbapi.getByCode(id)
         self.assertTrue(nums is not None)
         self.assertEqual(len(nums),1)
-#         rt = dbapi.DeleteByCode(id)
-        self.assertTrue(rt)
+        self.empty_tables(tbls=['Fashej'])
+        self.drop_tables(tbls=['Fashej'])
 
     def test_dbapi_jieshouj(self):
 
