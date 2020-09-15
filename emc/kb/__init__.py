@@ -16,7 +16,7 @@ InputDb = "emc.kb:Input db"
 DoVote = "emc.kb:Do vote"
 
 ORMBase = declarative.declarative_base()
-ora_engine = create_engine('oracle://emc:Micro$plone@kwsensen.f3322.net:1521/orclpdb1?mode=2&charset=utf8',optimize_limits=True,use_binds_for_limits=False,convert_unicode=True, encoding='utf-8',pool_recycle=3600)
+ora_engine = create_engine('oracle://emc:dlkdldldslds@kwsensen.f3322.net:1521/orclpdb1?mode=2&charset=utf8',optimize_limits=True,use_binds_for_limits=False,convert_unicode=True, encoding='utf-8',pool_recycle=3600)
 # some_engine = create_engine('mysql://kbdba:K0mdba$!9@127.0.0.1:3306/parameters?charset=utf8', pool_recycle=3600,echo=True)
 
 Session_log = sessionmaker(bind=ora_engine)
