@@ -59,7 +59,6 @@ class TestDatabase(unittest.TestCase):
         import os
         os.environ['NLS_LANG'] = '.AL32UTF8'
 #         tbls = TABLES
-#         tbls = ['Yao','YaoWei','YaoXing']
 #         self.empty_tables()
 #         self.drop_tables(tbls)
 #         self.create_tables(tbls)
@@ -80,11 +79,11 @@ class TestDatabase(unittest.TestCase):
                       tzlx="AM-V",bzf=2,mid_freq=1,comment1=u"常用发射机1")        
         dbapi = queryUtility(IDbapi, name='fashej')
         dbapi.add(values)
-#         import pdb
-#         pdb.set_trace()
+        import pdb
+        pdb.set_trace()
         nums = dbapi.query({'start':0,'size':1,'SearchableText':'','sort_order':'reverse'})
 
-        id = nums[0].id        
+        id = nums[0][0]
         rt = dbapi.getByCode(id)
         self.assertTrue(nums is not None)
         self.assertEqual(len(nums),1)
