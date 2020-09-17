@@ -133,7 +133,6 @@ class Fashej(ORMBase):
     pcdm = sqlalchemy.schema.Column(sqlalchemy.types.String(32),
             nullable=False,
         )
-#     model = sqlalchemy.orm.relation(Model,primaryjoin=Model.modelId==modelId,)
     location = sqlalchemy.schema.Column(sqlalchemy.types.String(32),
             nullable=False,
         )
