@@ -25,8 +25,8 @@ setup(name='emc.kb',
       zip_safe=False,
       install_requires=[
           'setuptools',
-#          'MySQL-python',
-          'cx_Oracle == 5.2.1',
+#           'cx_Oracle == 5.2.1',
+          'cx_Oracle ',
           'SQLAlchemy',
           'collective.autopermission',
           'plone.app.dexterity',
@@ -44,7 +44,8 @@ setup(name='emc.kb',
       },
       entry_points="""
       # -*- Entry points: -*-
-
+        [console_scripts]
+        initdb = emc.kb.initdb:main
       [z3c.autoinclude.plugin]
       target = plone
       """,
