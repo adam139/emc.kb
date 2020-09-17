@@ -4,11 +4,11 @@ from AccessControl.SecurityManagement import getSecurityManager
 from plone.app.contenttypes.interfaces import IFolder
 from zope.component import adapter
 from plone.registry.interfaces import IRecordModifiedEvent
-from zope.component import getUtility
+from emc.kb.interfaces import IDbapi
+from zope.component import queryUtility
 from five import grok
 import datetime
 from emc.kb.interfaces import ILogSettings
-from emc.kb.interfaces import IAdminLogLocator
 from emc.policy import get_ip,fmt,getfullname_orid
 
 
@@ -38,5 +38,5 @@ def detectLogsetChange(settings, event):
                                                         event.record.fieldName,
                                                         event.oldValue,
                                                         event.newValue) 
-    locator = getUtility(IAdminLogLocator)
+    locator = queryUtility(IDbapi, name='adminlog')
     locator.add(values)    
