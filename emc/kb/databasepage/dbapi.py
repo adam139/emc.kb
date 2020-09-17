@@ -279,11 +279,11 @@ text("SELECT * FROM users WHERE name=:name")).params(name='ed').all()
             s.rollback()
 
 # log lib
-clmns = ['adminid','userid','datetime','ip','type','operlevel','description','result']
+clmns = ['id','adminid','userid','datetime','ip','type','operlevel','description','result']
 search_clmns = ['adminid','userid','datetime','ip','operlevel','description']        
 adminlog = Dbapi(session,'emc.kb.mapping_log_db','admin_logs','AdminLog',columns=clmns,fullsearch_clmns=search_clmns)
 
-clmns = ['userid','datetime','ip','type','operlevel','description','result']
+clmns = ['id','userid','datetime','ip','type','operlevel','description','result']
 search_clmns = ['userid','datetime','ip','operlevel','description']
 userlog =  Dbapi(session,'emc.kb.mapping_log_db','user_logs','UserLog',columns=clmns,fullsearch_clmns=search_clmns)
 

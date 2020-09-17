@@ -19,7 +19,6 @@ from Products.statusmessages.interfaces import IStatusMessage
 from emc.kb.interfaces import InputError
 from zope.component import queryUtility
 from emc.kb.interfaces import IDbapi
-# from emc.kb.interfaces import IModelLocator,IFashejLocator,IJieshoujLocator,IFashetxLocator,IJieshoutxLocator
 from emc.kb.mapping_db import IModel,Model
 from emc.kb.mapping_db import Fashej,IFashej
 from emc.kb.mapping_db import Jieshouj,IJieshouj
@@ -93,6 +92,7 @@ class ModelView(BrowserView):
         locator = self.get_locator('model')
         recorders = locator.query(query)
         return recorders
+
 ### log lib start
 #admin_logs table
 class AdminLogView(ModelView):
@@ -540,14 +540,14 @@ class AdminLogajaxsearch(ajaxsearch):
                                 <td class="col-md-3">%(description)s</td>
                                 <td class="col-md-1">%(result)s</td>
                                 </tr> """% dict(
-                                            adminid = i[0],
-                                            userid = i[1],
-                                            datetime = i[2],
-                                            ip = i[3],
-                                            type = kind[i[4]],
-                                            level = log_level[i[5]],
-                                            description = i[6],
-                                            result = log_result[i[7]])
+                                            adminid = i[1],
+                                            userid = i[2],
+                                            datetime = i[3],
+                                            ip = i[4],
+                                            type = kind[i[5]],
+                                            level = log_level[i[6]],
+                                            description = i[7],
+                                            result = log_result[i[8]])
             outhtml = "%s%s" %(outhtml ,out)
             k = k + 1
         data = {'searchresult': outhtml,'start':start,'size':size,'total':totalnum}
@@ -585,13 +585,13 @@ class UserLogajaxsearch(ajaxsearch):
                                 <td class="col-md-3">%(description)s</td>
                                 <td class="col-md-1">%(result)s</td>
                                 </tr> """% dict(
-                                            userid = i[0],
-                                            datetime = i[1],
-                                            ip = i[2],
-                                            type = kind[i[3]],
-                                            level = log_level[i[4]],
-                                            description = i[5],
-                                            result = log_result[i[6]])
+                                            userid = i[1],
+                                            datetime = i[2],
+                                            ip = i[3],
+                                            type = kind[i[4]],
+                                            level = log_level[i[5]],
+                                            description = i[6],
+                                            result = log_result[i[7]])
             outhtml = "%s%s" %(outhtml ,out)
             k = k + 1
         data = {'searchresult': outhtml,'start':start,'size':size,'total':totalnum}
