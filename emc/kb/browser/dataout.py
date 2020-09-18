@@ -18,6 +18,7 @@ from emc.kb import _
 # todo code cp932
 # need byte string
 data_VALUES = [
+               u"序号".encode('utf-8'),
                u"主体".encode('utf-8'),
                u"客体".encode('utf-8'),
                u"时间".encode('utf-8'),
@@ -27,6 +28,7 @@ data_VALUES = [
                u"结果".encode('utf-8')
                ]
 userlog_header = [
+               u"序号".encode('utf-8'),
                u"用户".encode('utf-8'),
                u"时间".encode('utf-8'),
                u"ip".encode('utf-8'),
@@ -39,7 +41,7 @@ class AdminLogDataOut (grok.View):
     """AdminLog Data export as CSV files.
     """
     grok.context(Interface)
-    grok.name('export_csv')
+    grok.name('adminlog_export_csv')
     grok.require('zope2.View')
     
     def searchview(self,viewname="admin_logs"):
@@ -127,10 +129,12 @@ class AdminLogDataOut (grok.View):
         from emc.kb.utils import level as log_level
         from emc.kb.utils import result as log_result       
         for i in recorders:
-            i = list(i)                             
-            i[4] = kind[i[4]]
-            i[5] = log_level[i[5]]
-            i[7] = log_result[i[7]]                   
+            i = list(i)
+            # here related  ajax_listing module 's AdminLogajaxsearch class's output function.
+            #take code into Chinese note 
+            i[5] = kind[i[5]]
+            i[6] = log_level[i[6]]
+            i[8] = log_result[i[8]]
             yield i
 
     def _createCSV(self, lines):
@@ -188,8 +192,10 @@ class UserLogDataOut (AdminLogDataOut):
         from emc.kb.utils import level as log_level
         from emc.kb.utils import result as log_result       
         for i in recorders:
-            i = list(i)                             
-            i[3] = kind[i[3]]
-            i[4] = log_level[i[4]]
-            i[6] = log_result[i[6]]                   
-            yield i            
+            i = list(i)
+            # here related  ajax_listing module 's UserLogajaxsearch class's output function.
+            #take code into Chinese note 
+            i[4] = kind[i[4]]
+            i[5] = log_level[i[5]]
+            i[7] = log_result[i[7]]
+            yield i
