@@ -17,7 +17,7 @@ from emc.kb import ora_engine as engine
 from  emc.kb import ORMBase as Base
 from emc.kb.interfaces import IDbapi
 from zope.component import queryUtility
-TABLES = ["AdminLog","UserLog"]
+from  emc.kb.tests.base import LOGTABLES as TABLES
 
 class TestLogDatabase(unittest.TestCase):
 
