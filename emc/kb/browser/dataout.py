@@ -37,6 +37,87 @@ userlog_header = [
                u"结果".encode('utf-8')
                ]
 
+class Base (BrowserView):
+    """db table export function base class.
+    """
+
+    
+    def searchview(self,viewname="admin_logs"):
+        searchview = getMultiAdapter((self.context, self.request),name=viewname)
+        return searchview
+
+    def __call__(self):
+        method = self.request.get('REQUEST_METHOD', 'GET')
+#         import pdb
+#         pdb.set_trace()
+        if (method != 'POST'):
+            return self.request.response.redirect(self.context.absolute_url())
+
+        if self.request.form.get('form.button.Cancel'):
+            return self.request.response.redirect(self.context.absolute_url())
+        
+        return "<html><body><h2>this function 's back-end now are developing!</h2></body></html>"
+        searchview = self.searchview()
+ # datadic receive front ajax post data
+        datadic = self.request.form
+        start = int(datadic['start']) # batch search start position
+        size = int(datadic['size'])      # batch search size
+        sortcolumn = datadic['sortcolumn']
+        sortdirection = datadic['sortdirection']
+        keyword = (datadic['searchabletext']).strip()
+#         origquery = searchview.getPathQuery()
+        origquery = {}
+        # default reverse,as is desc
+        origquery['sort_on'] = sortcolumn
+        # sql db sortt_order:asc,desc
+        origquery['sort_order'] = sortdirection
+ #模糊搜索
+        if keyword != "":
+            origquery['SearchableText'] = '%'+keyword+'%'
+        else:
+            origquery['SearchableText'] = ""
+#origquery provide  batch search
+        origquery['size'] = size
+        origquery['start'] = start
+#totalquery  search all
+        totalquery = origquery.copy()
+        totalquery['size'] = 0
+        # search all   size = 0 return numbers of recorders
+        totalnum = searchview.search_multicondition(totalquery)
+        origquery.update({"size":totalnum})
+        resultDicLists = searchview.search_multicondition(origquery)
+        del origquery
+        del totalquery
+        if totalnum == 0: return
+#fire a log event
+        user = api.user.get_current()
+        ip = get_ip(self.request)
+        if user is None:
+            return
+        des = "从用户日志表导出了%s条日志" % totalnum
+        loginEvent = NormalUserloginEvent(userid = getfullname_orid(user),
+                                     datetime = datetime.datetime.now().strftime(fmt),
+                                     ip = ip,
+                                     type = 0,
+                                     description = des,
+                                     result = 1)
+        if loginEvent.available():
+            if loginEvent.is_normal_user():
+                event.notify(loginEvent)
+            else:
+                des = "从管理员日志表导出了%s条日志" % totalnum
+                loginEvent = AddloginEvent(adminid = getfullname_orid(user),
+                                     userid = "",
+                                     datetime = datetime.datetime.now().strftime(fmt),
+                                     ip = ip,
+                                     type = 0,
+                                     description = des,
+                                     result = 1)
+                event.notify(loginEvent)
+        return self.exportData(resultDicLists)
+    
+
+
 class AdminLogDataOut (grok.View):
     """AdminLog Data export as CSV files.
     """
@@ -112,9 +193,9 @@ class AdminLogDataOut (grok.View):
                                      ip = ip,
                                      type = 0,
                                      description = des,
-                                     result = 1)                
+                                     result = 1)
                 event.notify(loginEvent)
-        return self.exportData(resultDicLists)       
+        return self.exportData(resultDicLists)
 
     def exportData(self,recorders):
         """Export Data within CSV file."""

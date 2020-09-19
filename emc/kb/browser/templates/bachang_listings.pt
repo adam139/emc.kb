@@ -34,9 +34,16 @@
 					</button>
 				</div>
 			</div>
-			<div class="row">
-                <h1 class="documentFirstHeading">电磁兼容环境数据库-靶场表信息</h1>				
-			</div>			
+            <div class="row">
+              <div class="col-sm-9 col-xs-9">
+                <h1 class="documentFirstHeading">电磁兼容环境数据库-靶场表信息</h1>
+              </div >
+                <div id="export" class="col-sm-3 col-xs-3">
+                  <button value="导出" class="btn btn-default " type="submit">
+                    <span class="glyphicon glyphicon-download-alt"></span>
+                  </button>
+                </div>
+             </div>
 			<input type="hidden" value="0" id="dateSearch">
 			<!-- search fashej table ,so index name define as "sbdm" -->
 			<input type="hidden" value="id" id="solrSortColumn">
