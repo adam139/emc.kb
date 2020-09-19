@@ -1,5 +1,6 @@
 #-*- coding: UTF-8 -*-
 LOGTABLES = ["AdminLog","UserLog"]
 TABLES = ['Fashej','Jieshouj','Fashetx','Jieshoutx','Lvboq','Dianxingtxzyzk',
-                'Tianxianzk','Jieshoujzk','Fashejzk','Ceshishysh',
-                'Ceshiry','Ceshiff','Ceshibg','Ceshixm']
+                'Tianxianzk','Jieshoujzk','Fashejzk',
+                'Ceshishysh','Ceshiry','Ceshiff','Ceshibg','Ceshixm',
+                'Bachang','Bachangzhdw','Bachangfshj']
