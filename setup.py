@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
 import os
 
-version = '1.0'
+version = '2.0'
 
 setup(name='emc.kb',
       version=version,
@@ -25,8 +25,7 @@ setup(name='emc.kb',
       zip_safe=False,
       install_requires=[
           'setuptools',
-#           'cx_Oracle == 5.2.1',
-          'cx_Oracle ',
+          'cx_Oracle',
           'SQLAlchemy',
           'collective.autopermission',
           'plone.app.dexterity',
@@ -36,7 +35,6 @@ setup(name='emc.kb',
           'plone.app.relationfield',
           'z3c.caching',
           'zope.annotation',
-#           'z3c.saconfig',
           # -*- Extra requirements: -*-
       ],
        extras_require={
