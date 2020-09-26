@@ -254,7 +254,6 @@ text("SELECT * FROM users WHERE name=:name")).params(name='ed').all()
                 return datetime.strptime(rownum[0],fmt) 
             else:
                 return datetime.datetime.now()
-#             s.commit()
         except:
             return datetime.datetime.now()
     
