@@ -20,6 +20,11 @@
         permission="zope2.View"
         class=".dataout.Base"/> 
     <browser:page
+        name="ceshishysh_export_csv"
+        for="*"
+        permission="zope2.View"
+        class=".dataout.Base"/> 
+    <browser:page
         name="ceshibg_export_csv"
         for="*"
         permission="zope2.View"
