@@ -17,7 +17,8 @@ DoVote = "emc.kb:Do vote"
 
 ORMBase = declarative.declarative_base()
 # common user (no sys user) can not  connect as sysdba
-ora_engine = create_engine('oracle+cx_oracle://emc:password@kwsensen.f3322.net:1521/?service_name=orclpdb1&encoding=UTF-8&events=true')
+# use docker container name locate db
+ora_engine = create_engine('oracle+cx_oracle://emc:Micro$plone@emcdocker_oracledb_1:1521/?service_name=orclpdb1&encoding=UTF-8&events=true')
 #ora_engine = create_engine('oracle+cx_oracle://sys:password@kwsensen.f3322.net:1521/?service_name=orclpdb1&mode=2&encoding=UTF-8&events=true')
 
 Session_log = sessionmaker(bind=ora_engine)
